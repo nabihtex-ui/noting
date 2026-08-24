@@ -5,7 +5,7 @@ import type { FeedbackItem } from "@/lib/discord"
 
 function MarqueeCard({ item }: { item: FeedbackItem }) {
   return (
-    <div className="flex w-72 shrink-0 flex-col gap-2.5 rounded-2xl border border-border/60 bg-card p-4 sm:w-80">
+    <div className="flex w-72 shrink-0 flex-col gap-2.5 rounded-2xl border border-border/60 bg-card p-4 shadow-sm transition-colors hover:border-primary/40 sm:w-80">
       <div className="flex items-center gap-2.5">
         {item.avatarUrl ? (
           // eslint-disable-next-line @next/next/no-img-element

@@ -9,8 +9,14 @@ export function SiteHeader({ user }: { user: SessionUser | null }) {
   return (
     <header className="sticky top-0 z-40 border-b border-border/60 bg-background/80 backdrop-blur-xl">
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-4 sm:px-6">
-        <Link href="/" className="flex items-center gap-2.5">
-          <Image src="/nyova-icon.png" alt="" width={32} height={32} className="h-8 w-8 rounded-lg object-cover ring-1 ring-border/60" />
+        <Link href="/" className="group flex items-center gap-2.5">
+          <Image
+            src="/nyova-icon.png"
+            alt=""
+            width={32}
+            height={32}
+            className="h-8 w-8 rounded-lg object-cover ring-1 ring-border/60 transition-transform group-hover:scale-105"
+          />
           <span className="font-display text-xl font-bold tracking-tight">Nyova</span>
         </Link>
 
