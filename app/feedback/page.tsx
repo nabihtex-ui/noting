@@ -3,12 +3,23 @@ import { DiscordSidebar } from "@/components/discord-sidebar"
 import { FeedbackList } from "@/components/feedback-list"
 import { FeedbackForm } from "@/components/feedback-form"
 import { getCurrentUser } from "@/lib/auth"
-import { getWidget, getFeedback } from "@/lib/discord"
+import { getWidget, getFeedback, getUserLastFeedbackAt } from "@/lib/discord"
 
 export const dynamic = "force-dynamic"
 
+const COOLDOWN_MS = 6 * 60 * 60 * 1000
+
 export default async function FeedbackPage() {
   const [user, widget, feedback] = await Promise.all([getCurrentUser(), getWidget(), getFeedback()])
+
+  let cooldownRemainingSeconds = 0
+  if (user) {
+    const lastAt = await getUserLastFeedbackAt(user.id)
+    if (lastAt) {
+      const remainingMs = COOLDOWN_MS - (Date.now() - lastAt)
+      if (remainingMs > 0) cooldownRemainingSeconds = Math.ceil(remainingMs / 1000)
+    }
+  }
 
   return (
     <div className="min-h-screen">
@@ -23,7 +34,7 @@ export default async function FeedbackPage() {
               </p>
             </header>
 
-            <FeedbackForm user={user} />
+            <FeedbackForm user={user} cooldownRemainingSeconds={cooldownRemainingSeconds} />
             <FeedbackList items={feedback.items} error={feedback.error} />
           </div>
           <DiscordSidebar widget={widget} />

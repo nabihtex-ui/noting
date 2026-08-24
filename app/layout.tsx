@@ -1,4 +1,3 @@
-import { Analytics } from '@vercel/analytics/next'
 import type { Metadata, Viewport } from 'next'
 import { Cairo, IBM_Plex_Sans_Arabic } from 'next/font/google'
 import './globals.css'
@@ -35,7 +34,6 @@ export default function RootLayout({
     <html lang="ar" dir="rtl" className={`dark ${cairo.variable} ${plexArabic.variable}`}>
       <body className="bg-background font-sans antialiased">
         {children}
-        {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>
     </html>
   )

@@ -1,3 +1,4 @@
+import { Quote } from "lucide-react"
 import { StarRating } from "@/components/star-rating"
 import { timeAgo } from "@/lib/time"
 import type { FeedbackError, FeedbackItem } from "@/lib/discord"
@@ -10,25 +11,30 @@ const ERROR_MESSAGES: Record<FeedbackError, string> = {
 
 function FeedbackCard({ item }: { item: FeedbackItem }) {
   return (
-    <div className="flex flex-col gap-3 rounded-2xl border border-border/60 bg-card p-5 transition-colors hover:border-primary/40">
-      <div className="flex items-center gap-3">
+    <div className="group relative flex flex-col gap-3 overflow-hidden rounded-2xl border border-border/60 bg-card p-5 transition-all hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-[0_8px_30px_-12px_rgba(88,101,242,0.35)]">
+      <Quote className="pointer-events-none absolute -right-2 -top-2 size-16 rotate-12 text-primary/[0.06] transition-colors group-hover:text-primary/10" />
+
+      <div className="relative flex items-center gap-3">
         {item.avatarUrl ? (
           // eslint-disable-next-line @next/next/no-img-element
-          <img src={item.avatarUrl || "/placeholder.svg"} alt="" className="h-9 w-9 rounded-full object-cover" />
+          <img
+            src={item.avatarUrl || "/placeholder.svg"}
+            alt=""
+            className="h-9 w-9 shrink-0 rounded-full object-cover ring-2 ring-border/60"
+          />
         ) : (
-          <div className="flex h-9 w-9 items-center justify-center rounded-full bg-primary/20 text-sm font-semibold text-primary">
+          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary/20 text-sm font-semibold text-primary ring-2 ring-border/60">
             {item.name.charAt(0).toUpperCase()}
           </div>
         )}
         <div className="min-w-0 flex-1">
           <p className="truncate text-sm font-semibold">{item.name}</p>
+          <StarRating value={item.rating} size={12} />
         </div>
         <span className="shrink-0 text-xs text-muted-foreground">{timeAgo(item.timestamp)}</span>
       </div>
 
-      <StarRating value={item.rating} size={15} />
-
-      <p className="text-sm leading-relaxed text-muted-foreground text-pretty">{item.content}</p>
+      <p className="relative text-sm leading-relaxed text-muted-foreground text-pretty">{item.content}</p>
     </div>
   )
 }
@@ -36,9 +42,11 @@ function FeedbackCard({ item }: { item: FeedbackItem }) {
 export function FeedbackList({
   items,
   error,
+  columns = 3,
 }: {
   items: FeedbackItem[]
   error?: FeedbackError | null
+  columns?: 2 | 3
 }) {
   if (items.length === 0) {
     return (
@@ -51,7 +59,13 @@ export function FeedbackList({
   }
 
   return (
-    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
+    <div
+      className={
+        columns === 2
+          ? "grid grid-cols-1 gap-4 sm:grid-cols-2"
+          : "grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3"
+      }
+    >
       {items.map((item) => (
         <FeedbackCard key={item.id} item={item} />
       ))}

@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server"
-import { getFeedback, postFeedback } from "@/lib/discord"
+import { getFeedback, getUserLastFeedbackAt, postFeedback } from "@/lib/discord"
 import { getCurrentUser } from "@/lib/auth"
+
+const COOLDOWN_MS = 6 * 60 * 60 * 1000 // 6 hours
 
 export async function GET() {
   const { items, error } = await getFeedback()
@@ -30,11 +32,23 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "invalid_rating" }, { status: 400 })
   }
 
+  const lastAt = await getUserLastFeedbackAt(user.id)
+  if (lastAt) {
+    const remainingMs = COOLDOWN_MS - (Date.now() - lastAt)
+    if (remainingMs > 0) {
+      return NextResponse.json(
+        { error: "cooldown", remainingSeconds: Math.ceil(remainingMs / 1000) },
+        { status: 429 },
+      )
+    }
+  }
+
   const ok = await postFeedback({
     name: user.globalName || user.username,
     avatarUrl: user.avatarUrl,
     content,
     rating,
+    userId: user.id,
   })
 
   if (!ok) {

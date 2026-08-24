@@ -43,11 +43,10 @@ export type FeedbackResult = {
   error: FeedbackError | null
 }
 
-// Reads feedback messages posted by our webhook from the configured channel.
-export async function getFeedback(): Promise<FeedbackResult> {
+async function fetchRawMessages(): Promise<{ messages: any[] | null; error: FeedbackError | null }> {
   const token = process.env.DISCORD_BOT_TOKEN
   const channelId = process.env.DISCORD_FEEDBACK_CHANNEL_ID
-  if (!token || !channelId) return { items: [], error: "config" }
+  if (!token || !channelId) return { messages: null, error: "config" }
 
   const res = await fetch(`${API}/channels/${channelId}/messages?limit=100`, {
     headers: { Authorization: `Bot ${token}` },
@@ -55,13 +54,19 @@ export async function getFeedback(): Promise<FeedbackResult> {
   })
 
   if (!res.ok) {
-    console.log("[v0] getFeedback failed:", res.status, await res.text())
-    // 403 Missing Access / 50001 -> the bot isn't in the server or can't see the channel.
+    console.log("[v0] fetchRawMessages failed:", res.status, await res.text())
     const error: FeedbackError = res.status === 403 || res.status === 401 ? "no_access" : "unknown"
-    return { items: [], error }
+    return { messages: null, error }
   }
 
-  const messages: any[] = await res.json()
+  return { messages: await res.json(), error: null }
+}
+
+// Reads feedback messages posted by our webhook from the configured channel.
+export async function getFeedback(): Promise<FeedbackResult> {
+  const { messages, error } = await fetchRawMessages()
+  if (!messages) return { items: [], error }
+
   const items: FeedbackItem[] = []
 
   for (const msg of messages) {
@@ -91,12 +96,31 @@ export async function getFeedback(): Promise<FeedbackResult> {
   return { items, error: null }
 }
 
+// Looks through the recent feedback messages for the last one posted by this
+// Discord user (matched via a hidden marker in the embed footer), used to
+// enforce the submission cooldown without needing a database.
+export async function getUserLastFeedbackAt(userId: string): Promise<number | null> {
+  const { messages } = await fetchRawMessages()
+  if (!messages) return null
+
+  let latest: number | null = null
+  for (const msg of messages) {
+    const embed = Array.isArray(msg.embeds) ? msg.embeds[0] : undefined
+    const footerText: string | undefined = embed?.footer?.text
+    if (!footerText || !footerText.endsWith(`uid:${userId}`)) continue
+    const ts = new Date(msg.timestamp).getTime()
+    if (Number.isFinite(ts) && (latest === null || ts > latest)) latest = ts
+  }
+  return latest
+}
+
 // Posts a feedback message via the configured webhook.
 export async function postFeedback(params: {
   name: string
   avatarUrl: string
   content: string
   rating: number
+  userId: string
 }): Promise<boolean> {
   const webhook = process.env.DISCORD_WEBHOOK_URL
   if (!webhook) return false
@@ -112,6 +136,7 @@ export async function postFeedback(params: {
         description: params.content,
         color: 0x3b82f6,
         fields: [{ name: "Rating", value: stars, inline: true }],
+        footer: { text: `Nyova • uid:${params.userId}` },
         timestamp: new Date().toISOString(),
       },
     ],
