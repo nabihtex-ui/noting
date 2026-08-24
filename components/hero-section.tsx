@@ -24,29 +24,29 @@ export function HeroSection({ downloadUrl }: { downloadUrl: string }) {
 
         <span className="mb-4 inline-flex items-center gap-2 rounded-full border border-border/60 bg-background/60 px-3 py-1 text-xs font-medium text-muted-foreground">
           <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
-          Latest version available
+          الإصدار متاح الآن
         </span>
 
         <h1 className="font-display text-4xl font-bold tracking-tight text-balance sm:text-6xl">
-          Get <span className="text-primary">Nyova</span> and start now
+          حمّل <span className="text-primary">Nyova</span> وابدأ دلوقتي
         </h1>
 
         <p className="mt-4 max-w-xl text-pretty leading-relaxed text-muted-foreground">
-          A fast, secure app that's always up to date. Download the latest version, share your
-          feedback, and join our community on Discord.
+          برنامج سريع، آمن، ومحدّث باستمرار. حمّل النسخة الأحدث، وشاركنا رأيك، وانضم لمجتمعنا على
+          ديسكورد.
         </p>
 
         <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row">
           <a href={downloadUrl} target={downloadUrl === "#" ? undefined : "_blank"} rel="noopener noreferrer">
             <Button size="lg" className="h-12 gap-2 bg-primary px-6 text-base hover:bg-primary/90">
               <Download className="size-5" />
-              Download
+              تحميل البرنامج
             </Button>
           </a>
           <Link href="/feedback">
             <Button size="lg" variant="outline" className="h-12 gap-2 px-6 text-base">
               <MessageSquareText className="size-5" />
-              See feedback
+              شوف الفيدباك
             </Button>
           </Link>
         </div>

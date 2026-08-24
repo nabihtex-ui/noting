@@ -17,7 +17,7 @@ export function SiteHeader({ user }: { user: SessionUser | null }) {
         <nav className="flex items-center gap-2 sm:gap-3">
           <Link href="/feedback">
             <Button variant="ghost" size="lg" className="h-10 px-4">
-              Feedback
+              الفيدباك
             </Button>
           </Link>
 
@@ -37,7 +37,7 @@ export function SiteHeader({ user }: { user: SessionUser | null }) {
                 </span>
               </div>
               <form action="/api/auth/logout" method="post">
-                <Button type="submit" variant="ghost" size="icon-lg" className="h-10 w-10" aria-label="Log out">
+                <Button type="submit" variant="ghost" size="icon-lg" className="h-10 w-10" aria-label="تسجيل الخروج">
                   <LogOut className="size-4" />
                 </Button>
               </form>
@@ -46,7 +46,7 @@ export function SiteHeader({ user }: { user: SessionUser | null }) {
             <Link href="/api/auth/login">
               <Button size="lg" className="h-10 gap-2 bg-primary px-4 hover:bg-primary/90">
                 <DiscordIcon className="size-4" />
-                Log in
+                تسجيل الدخول
               </Button>
             </Link>
           )}

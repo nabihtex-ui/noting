@@ -16,13 +16,8 @@ const plexArabic = IBM_Plex_Sans_Arabic({
 
 export const metadata: Metadata = {
   title: 'Nyova',
-  description: 'Nyova — download the app, share your feedback, and join our community on Discord.',
+  description: 'Nyova — تحميل البرنامج، شارك رأيك، وانضم لمجتمعنا على ديسكورد.',
   generator: 'v0.app',
-  icons: {
-    icon: '/nyova-icon.png',
-    shortcut: '/nyova-icon.png',
-    apple: '/nyova-icon.png',
-  },
 }
 
 export const viewport: Viewport = {
@@ -36,7 +31,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" dir="ltr" className={`dark ${cairo.variable} ${plexArabic.variable}`}>
+    <html lang="ar" dir="rtl" className={`dark ${cairo.variable} ${plexArabic.variable}`}>
       <body className="bg-background font-sans antialiased">
         {children}
       </body>

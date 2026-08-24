@@ -69,7 +69,7 @@ export function FeedbackMarquee({ items }: { items: FeedbackItem[] }) {
           <div className="flex size-11 items-center justify-center rounded-full bg-primary/10 text-primary">
             <MessageSquareHeart className="size-5" />
           </div>
-          <p className="text-sm text-muted-foreground">No feedback yet. Be the first to share yours!</p>
+          <p className="text-sm text-muted-foreground">لسه مفيش آراء. كن أول واحد يشاركنا رأيه!</p>
         </div>
       </div>
     )
@@ -82,6 +82,7 @@ export function FeedbackMarquee({ items }: { items: FeedbackItem[] }) {
   return (
     <div
       className="group/marquee relative flex flex-col gap-4 py-1 [mask-image:linear-gradient(to_right,transparent,black_8%,black_92%,transparent)]"
+      dir="ltr"
     >
       <MarqueeRow items={rowA} direction="left" durationSeconds={Math.max(18, rowA.length * 7)} />
       {rowB.length > 0 && (

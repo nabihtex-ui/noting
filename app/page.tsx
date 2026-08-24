@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { ArrowRight } from "lucide-react"
+import { ArrowLeft } from "lucide-react"
 import { SiteHeader } from "@/components/site-header"
 import { HeroSection } from "@/components/hero-section"
 import { DiscordSidebar } from "@/components/discord-sidebar"
@@ -28,13 +28,13 @@ export default async function HomePage() {
             <section className="flex flex-col gap-5">
               <div className="flex items-center justify-between gap-3">
                 <div>
-                  <h2 className="font-display text-2xl font-bold tracking-tight">User feedback</h2>
-                  <p className="text-sm text-muted-foreground">The latest reviews from our community</p>
+                  <h2 className="font-display text-2xl font-bold tracking-tight">آراء المستخدمين</h2>
+                  <p className="text-sm text-muted-foreground">أحدث الآراء اللي كتبها المجتمع عندنا</p>
                 </div>
                 <Link href="/feedback">
                   <Button variant="outline" size="lg" className="h-10 gap-2 px-4">
-                    All feedback
-                    <ArrowRight className="size-4" />
+                    كل الفيدباك
+                    <ArrowLeft className="size-4" />
                   </Button>
                 </Link>
               </div>
