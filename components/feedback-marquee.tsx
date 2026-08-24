@@ -30,6 +30,15 @@ function MarqueeCard({ item }: { item: FeedbackItem }) {
   )
 }
 
+function buildTrack(items: FeedbackItem[]): FeedbackItem[] {
+  // With very few items, repeat the block enough times so the row still
+  // feels full and the seamless-loop duplication doesn't look sparse.
+  const MIN_VISIBLE = 6
+  const repeats = Math.max(1, Math.ceil(MIN_VISIBLE / items.length))
+  const block = Array.from({ length: repeats }, () => items).flat()
+  return [...block, ...block]
+}
+
 function MarqueeRow({
   items,
   direction,
@@ -39,8 +48,7 @@ function MarqueeRow({
   direction: "left" | "right"
   durationSeconds: number
 }) {
-  // Duplicated once so the loop wraps seamlessly (track scrolls exactly 50%).
-  const track = [...items, ...items]
+  const track = buildTrack(items)
   return (
     <div className="overflow-hidden">
       <div
@@ -56,10 +64,6 @@ function MarqueeRow({
     </div>
   )
 }
-
-// Below this many items, duplicating the track for a seamless loop would
-// make the same review(s) visibly repeat, so we render a plain static row instead.
-const MIN_ITEMS_FOR_MARQUEE = 6
 
 export function FeedbackMarquee({ items }: { items: FeedbackItem[] }) {
   if (items.length === 0) {
@@ -79,24 +83,12 @@ export function FeedbackMarquee({ items }: { items: FeedbackItem[] }) {
     )
   }
 
-  if (items.length < MIN_ITEMS_FOR_MARQUEE) {
-    return (
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-        {items.map((item) => (
-          <MarqueeCard key={item.id} item={item} />
-        ))}
-      </div>
-    )
-  }
-
   // Split into two rows (odd/even) so both rows show a mix of reviews.
   const rowA = items.filter((_, i) => i % 2 === 0)
   const rowB = items.filter((_, i) => i % 2 === 1)
 
   return (
-    <div
-      className="group/marquee relative flex flex-col gap-4 py-1 [mask-image:linear-gradient(to_right,transparent,black_8%,black_92%,transparent)]"
-    >
+    <div className="group/marquee relative flex flex-col gap-4 py-1 [mask-image:linear-gradient(to_right,transparent,black_8%,black_92%,transparent)]">
       <MarqueeRow items={rowA} direction="left" durationSeconds={Math.max(18, rowA.length * 7)} />
       {rowB.length > 0 && (
         <MarqueeRow items={rowB} direction="right" durationSeconds={Math.max(18, rowB.length * 7)} />

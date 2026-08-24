@@ -3,7 +3,7 @@ import Link from "next/link"
 import { Download, MessageSquareText } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
-export function HeroSection({ downloadUrl }: { downloadUrl: string }) {
+export function HeroSection({ downloadUrl, downloadAvailable }: { downloadUrl: string; downloadAvailable: boolean }) {
   return (
     <section className="relative overflow-hidden rounded-3xl border border-border/60 bg-card p-8 sm:p-12">
       {/* Signature glow */}
@@ -23,8 +23,8 @@ export function HeroSection({ downloadUrl }: { downloadUrl: string }) {
         />
 
         <span className="mb-4 inline-flex items-center gap-2 rounded-full border border-border/60 bg-background/60 px-3 py-1 text-xs font-medium text-muted-foreground">
-          <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
-          Latest version available
+          <span className={`h-1.5 w-1.5 rounded-full ${downloadAvailable ? "bg-emerald-500" : "bg-red-500"}`} />
+          {downloadAvailable ? "Latest version available" : "Download unavailable right now"}
         </span>
 
         <h1 className="font-display text-4xl font-bold tracking-tight text-balance sm:text-6xl">
@@ -37,8 +37,18 @@ export function HeroSection({ downloadUrl }: { downloadUrl: string }) {
         </p>
 
         <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row">
-          <a href={downloadUrl} target={downloadUrl === "#" ? undefined : "_blank"} rel="noopener noreferrer">
-            <Button size="lg" className="h-12 gap-2 bg-primary px-6 text-base hover:bg-primary/90">
+          <a
+            href={downloadAvailable ? downloadUrl : undefined}
+            target={downloadUrl === "#" ? undefined : "_blank"}
+            rel="noopener noreferrer"
+            aria-disabled={!downloadAvailable}
+            title={downloadAvailable ? undefined : "The file isn't uploaded yet"}
+          >
+            <Button
+              size="lg"
+              disabled={!downloadAvailable}
+              className="h-12 gap-2 bg-primary px-6 text-base hover:bg-primary/90 disabled:pointer-events-none disabled:opacity-50"
+            >
               <Download className="size-5" />
               Download
             </Button>
