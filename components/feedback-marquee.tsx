@@ -57,6 +57,10 @@ function MarqueeRow({
   )
 }
 
+// Below this many items, duplicating the track for a seamless loop would
+// make the same review(s) visibly repeat, so we render a plain static row instead.
+const MIN_ITEMS_FOR_MARQUEE = 6
+
 export function FeedbackMarquee({ items }: { items: FeedbackItem[] }) {
   if (items.length === 0) {
     return (
@@ -69,8 +73,18 @@ export function FeedbackMarquee({ items }: { items: FeedbackItem[] }) {
           <div className="flex size-11 items-center justify-center rounded-full bg-primary/10 text-primary">
             <MessageSquareHeart className="size-5" />
           </div>
-          <p className="text-sm text-muted-foreground">لسه مفيش آراء. كن أول واحد يشاركنا رأيه!</p>
+          <p className="text-sm text-muted-foreground">No feedback yet. Be the first to share yours!</p>
         </div>
+      </div>
+    )
+  }
+
+  if (items.length < MIN_ITEMS_FOR_MARQUEE) {
+    return (
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+        {items.map((item) => (
+          <MarqueeCard key={item.id} item={item} />
+        ))}
       </div>
     )
   }
@@ -82,7 +96,6 @@ export function FeedbackMarquee({ items }: { items: FeedbackItem[] }) {
   return (
     <div
       className="group/marquee relative flex flex-col gap-4 py-1 [mask-image:linear-gradient(to_right,transparent,black_8%,black_92%,transparent)]"
-      dir="ltr"
     >
       <MarqueeRow items={rowA} direction="left" durationSeconds={Math.max(18, rowA.length * 7)} />
       {rowB.length > 0 && (

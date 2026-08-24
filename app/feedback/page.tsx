@@ -28,9 +28,10 @@ export default async function FeedbackPage() {
         <div className="flex flex-col gap-6 lg:flex-row">
           <div className="flex min-w-0 flex-1 flex-col gap-8">
             <header className="flex flex-col gap-2">
-              <h1 className="font-display text-3xl font-bold tracking-tight sm:text-4xl">الفيدباك</h1>
+              <h1 className="font-display text-3xl font-bold tracking-tight sm:text-4xl">Feedback</h1>
               <p className="text-muted-foreground">
-                كل الآراء المكتوبة في روم الديسكورد بتظهر هنا مباشرة. اكتب رأيك وهيتنشر في السيرفر.
+                Everything posted in the Discord feedback channel shows up here in real time.
+                Write your review and it'll be posted to the server.
               </p>
             </header>
 

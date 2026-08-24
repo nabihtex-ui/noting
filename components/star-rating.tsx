@@ -25,7 +25,7 @@ export function StarRating({ value, onChange, size = 16, className }: Props) {
             key={star}
             type="button"
             disabled={!interactive}
-            aria-label={`${star} من 5`}
+            aria-label={`${star} of 5`}
             onClick={() => onChange?.(star)}
             onMouseEnter={() => interactive && setHover(star)}
             onMouseLeave={() => interactive && setHover(0)}
@@ -39,7 +39,7 @@ export function StarRating({ value, onChange, size = 16, className }: Props) {
               style={{ width: size, height: size }}
               className={cn(
                 "transition-colors",
-                filled ? "fill-accent text-accent" : "fill-transparent text-muted-foreground/40",
+                filled ? "fill-yellow-400 text-yellow-400" : "fill-transparent text-muted-foreground/40",
               )}
             />
           </button>
