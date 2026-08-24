@@ -4,9 +4,9 @@ import { timeAgo } from "@/lib/time"
 import type { FeedbackError, FeedbackItem } from "@/lib/discord"
 
 const ERROR_MESSAGES: Record<FeedbackError, string> = {
-  config: "لسه إعدادات ربط الديسكورد (البوت والروم) متضبطتش على السيرفر.",
-  no_access: "البوت مش عضو في السيرفر أو معندوش صلاحية يشوف روم الفيدباك.",
-  unknown: "حصل خطأ إحنا مش قادرين نجيب الفيدباك دلوقتي، حاول تاني كمان شوية.",
+  config: "Discord isn't fully configured on the server yet (bot token or channel missing).",
+  no_access: "The bot isn't in the server, or doesn't have permission to read the feedback channel.",
+  unknown: "Something went wrong loading feedback right now — please try again shortly.",
 }
 
 function FeedbackCard({ item }: { item: FeedbackItem }) {
@@ -52,7 +52,7 @@ export function FeedbackList({
     return (
       <div className="rounded-2xl border border-dashed border-border/60 bg-card/40 p-10 text-center">
         <p className="text-sm text-muted-foreground">
-          {error ? ERROR_MESSAGES[error] : "لسه مفيش فيدباك. كن أول واحد يشاركنا رأيه!"}
+          {error ? ERROR_MESSAGES[error] : "No feedback yet. Be the first to share yours!"}
         </p>
       </div>
     )

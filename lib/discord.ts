@@ -63,15 +63,30 @@ async function fetchRawMessages(): Promise<{ messages: any[] | null; error: Feed
 }
 
 // Reads feedback messages posted by our webhook from the configured channel.
+// Only the most recent message per Discord user (matched via the hidden
+// "uid:" marker in the embed footer) is kept, so one person spamming
+// feedback doesn't fill up the list with duplicate cards.
 export async function getFeedback(): Promise<FeedbackResult> {
   const { messages, error } = await fetchRawMessages()
   if (!messages) return { items: [], error }
 
+  const seenUserIds = new Set<string>()
   const items: FeedbackItem[] = []
 
   for (const msg of messages) {
     const embed = Array.isArray(msg.embeds) ? msg.embeds[0] : undefined
     if (!embed || !embed.description) continue
+
+    const footerText: string | undefined = embed.footer?.text
+    const uidMatch = footerText?.match(/uid:(\d+)$/)
+    const dedupeKey = uidMatch?.[1] ?? msg.author?.id
+
+    // Messages come back newest-first, so the first time we see a user's id
+    // is their latest feedback; skip any older ones from the same person.
+    if (dedupeKey) {
+      if (seenUserIds.has(dedupeKey)) continue
+      seenUserIds.add(dedupeKey)
+    }
 
     const name = embed.author?.name ?? msg.author?.username ?? "Anonymous"
     const avatarUrl =

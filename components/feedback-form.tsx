@@ -50,11 +50,11 @@ export function FeedbackForm({
           className="pointer-events-none absolute -top-16 left-1/2 h-48 w-48 -translate-x-1/2 rounded-full bg-primary/20 blur-[80px]"
         />
         <div className="relative flex flex-col items-center gap-4">
-          <p className="text-sm text-muted-foreground">سجّل الدخول بالديسكورد عشان تقدر تكتب فيدباك.</p>
+          <p className="text-sm text-muted-foreground">Log in with Discord to leave feedback.</p>
           <Link href="/api/auth/login">
             <Button size="lg" className="h-11 gap-2 bg-primary px-5 hover:bg-primary/90">
               <DiscordIcon className="size-4" />
-              تسجيل الدخول بالديسكورد
+              Log in with Discord
             </Button>
           </Link>
         </div>
@@ -66,7 +66,7 @@ export function FeedbackForm({
     e.preventDefault()
     setError(null)
     if (content.trim().length < 3) {
-      setError("اكتب رأيك أولًا (3 أحرف على الأقل).")
+      setError("Write your feedback first (at least 3 characters).")
       return
     }
     setLoading(true)
@@ -81,7 +81,7 @@ export function FeedbackForm({
         if (data.error === "cooldown" && typeof data.remainingSeconds === "number") {
           setCooldown(data.remainingSeconds)
         } else {
-          setError(data.error === "webhook_failed" ? "فشل إرسال الفيدباك للديسكورد." : "حصل خطأ، حاول تاني.")
+          setError(data.error === "webhook_failed" ? "Failed to send feedback to Discord." : "Something went wrong, please try again.")
         }
         return
       }
@@ -89,7 +89,7 @@ export function FeedbackForm({
       setRating(5)
       router.refresh()
     } catch {
-      setError("حصل خطأ في الاتصال، حاول تاني.")
+      setError("Connection error, please try again.")
     } finally {
       setLoading(false)
     }
@@ -106,8 +106,8 @@ export function FeedbackForm({
           <div className="flex size-12 items-center justify-center rounded-full bg-primary/10 text-primary">
             <Clock className="size-6" />
           </div>
-          <p className="text-sm font-semibold">شكرًا لرأيك الأخير!</p>
-          <p className="text-sm text-muted-foreground">تقدر تكتب فيدباك جديد بعد</p>
+          <p className="text-sm font-semibold">Thanks for your last review!</p>
+          <p className="text-sm text-muted-foreground">You can leave new feedback in</p>
           <p className="font-display text-2xl font-bold tracking-wide text-primary tabular-nums">
             {formatCountdown(cooldown)}
           </p>
@@ -128,7 +128,7 @@ export function FeedbackForm({
 
       <div className="relative flex flex-col gap-4">
         <div className="flex items-center justify-between gap-3">
-          <p className="text-sm font-semibold">شاركنا رأيك</p>
+          <p className="text-sm font-semibold">Share your feedback</p>
           <StarRating value={rating} onChange={setRating} size={20} />
         </div>
 
@@ -137,7 +137,7 @@ export function FeedbackForm({
           onChange={(e) => setContent(e.target.value)}
           maxLength={500}
           rows={4}
-          placeholder="اكتب فيدباك عن البرنامج..."
+          placeholder="Write your feedback about the app..."
           className="w-full resize-none rounded-xl border border-input bg-background px-4 py-3 text-sm leading-relaxed text-foreground outline-none transition-colors placeholder:text-muted-foreground/60 focus:border-ring focus:ring-3 focus:ring-ring/40"
         />
 
@@ -152,7 +152,7 @@ export function FeedbackForm({
             className="h-11 gap-2 bg-primary px-5 hover:bg-primary/90"
           >
             {loading ? <Loader2 className="size-4 animate-spin" /> : <Send className="size-4" />}
-            إرسال الفيدباك
+            Send feedback
           </Button>
         </div>
       </div>

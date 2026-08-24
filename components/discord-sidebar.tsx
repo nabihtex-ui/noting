@@ -54,22 +54,22 @@ export function DiscordSidebar({ widget }: { widget: WidgetData | null }) {
       <div className="flex items-center gap-2">
         <DiscordIcon className="size-5 text-primary" />
         <div className="min-w-0">
-          <p className="truncate text-sm font-semibold">{widget?.name ?? "مجتمع Nyova"}</p>
-          <p className="text-xs text-muted-foreground">{online.length} متصل الآن</p>
+          <p className="truncate text-sm font-semibold">{widget?.name ?? "Nyova Community"}</p>
+          <p className="text-xs text-muted-foreground">{online.length} online now</p>
         </div>
       </div>
 
       <div className="flex flex-col gap-1">
         {members.length === 0 && (
           <p className="px-2 py-4 text-center text-xs text-muted-foreground">
-            لا يوجد أعضاء متصلون حاليًا، أو أن ويدجت السيرفر غير مُفعّل.
+            No members online right now, or the server widget isn't enabled.
           </p>
         )}
 
         {online.length > 0 && (
           <>
             <p className="px-2 pt-1 text-xs font-semibold tracking-wide text-muted-foreground uppercase">
-              متصل — {online.length}
+              Online — {online.length}
             </p>
             {online.map((m) => (
               <MemberRow key={m.id} member={m} />
@@ -80,7 +80,7 @@ export function DiscordSidebar({ widget }: { widget: WidgetData | null }) {
         {offline.length > 0 && (
           <>
             <p className="px-2 pt-3 text-xs font-semibold tracking-wide text-muted-foreground uppercase">
-              غير متصل — {offline.length}
+              Offline — {offline.length}
             </p>
             {offline.map((m) => (
               <MemberRow key={m.id} member={m} />
@@ -92,7 +92,7 @@ export function DiscordSidebar({ widget }: { widget: WidgetData | null }) {
       <a href={inviteUrl} target="_blank" rel="noopener noreferrer" className="mt-auto">
         <Button className="h-11 w-full gap-2 bg-primary hover:bg-primary/90">
           <DiscordIcon className="size-4" />
-          انضم إلى الديسكورد
+          Join Discord
         </Button>
       </a>
     </aside>
