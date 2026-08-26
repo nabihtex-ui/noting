@@ -12,7 +12,6 @@ import {
 } from "motion/react"
 import { useState, type PointerEvent as ReactPointerEvent } from "react"
 import { DownloadButton } from "@/components/download-button"
-import { useLivePresence } from "@/components/live-presence"
 import { Counter } from "@/components/motion/counter"
 
 type HeroSectionProps = {
@@ -31,7 +30,6 @@ export function HeroSection({
   memberCount,
 }: HeroSectionProps) {
   const reduce = useReducedMotion()
-  const liveOnline = useLivePresence(memberCount)
   const [total, setTotal] = useState(downloadCount)
 
   // 3D tilt for the whole hero card, driven by pointer position.
@@ -129,7 +127,7 @@ export function HeroSection({
           {downloadAvailable ? "Latest version available" : "Update in progress"}
           <span aria-hidden="true" className="h-3 w-px bg-border" />
           <span className="tabular-nums text-foreground">
-            <Counter value={liveOnline} /> online
+            <Counter value={memberCount} /> online
           </span>
         </motion.span>
 
