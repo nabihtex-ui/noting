@@ -24,6 +24,9 @@ export const metadata: Metadata = {
     shortcut: '/nyova-icon.png',
     apple: '/nyova-icon.png',
   },
+  other: {
+    'google-adsense-account': 'ca-pub-1993476341545713',
+  },
 }
 
 export const viewport: Viewport = {
