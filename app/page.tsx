@@ -10,7 +10,6 @@ import { getCurrentUser } from "@/lib/auth"
 import { getWidget, getFeedback } from "@/lib/discord"
 import { checkDownloadAvailable } from "@/lib/download-status"
 import { getDownloadCount } from "@/lib/downloads"
-import { AdSlot } from "@/components/ad-slot"
 
 export const dynamic = "force-dynamic"
 
@@ -44,12 +43,9 @@ export default async function HomePage() {
     <div className="min-h-screen">
       <SiteHeader user={user} />
       <main className="mx-auto max-w-6xl px-4 py-8 sm:px-6 sm:py-12">
-        <AdSlot slot="1111111111" className="mb-8" />
         <div className="flex flex-col gap-6 lg:flex-row">
           <div className="flex min-w-0 flex-1 flex-col gap-10">
             <HeroSection downloadUrl={downloadUrl} downloadAvailable={downloadAvailable} downloadCount={downloadCount} memberCount={0} />
-
-            <AdSlot slot="2222222222" />
 
             <section className="flex flex-col gap-5">
               <div className="flex items-center justify-between gap-3">
