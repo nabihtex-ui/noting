@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from 'next'
 import { Cairo, IBM_Plex_Sans_Arabic } from 'next/font/google'
+import Script from 'next/script'
 import './globals.css'
 
 const cairo = Cairo({
@@ -37,6 +38,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" dir="ltr" className={`dark ${cairo.variable} ${plexArabic.variable}`}>
+      <head>
+        <Script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1993476341545713"
+          crossOrigin="anonymous"
+          strategy="afterInteractive"
+        />
+      </head>
       <body className="bg-background font-sans antialiased">
         {children}
       </body>

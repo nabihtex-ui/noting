@@ -11,6 +11,7 @@ import { getWidget, getFeedback } from "@/lib/discord"
 import { checkDownloadAvailable } from "@/lib/download-status"
 import { getDownloadCount } from "@/lib/downloads"
 import { AdSlot } from "@/components/ad-slot"
+import { StatsStrip } from "@/components/stats-strip"
 
 export const dynamic = "force-dynamic"
 
@@ -39,17 +40,29 @@ export default async function HomePage() {
     getDownloadCount(),
   ])
   const latestFeedback = feedback.items.slice(0, HOME_FEEDBACK_LIMIT)
+  const feedbackCount = feedback.items.length
+  const averageRating =
+    feedbackCount > 0
+      ? feedback.items.reduce((sum, item) => sum + item.rating, 0) / feedbackCount
+      : 0
 
   return (
     <div className="min-h-screen">
       <SiteHeader user={user} />
       <main className="mx-auto max-w-6xl px-4 py-8 sm:px-6 sm:py-12">
-        <AdSlot className="mb-8" />
+        <AdSlot slot="1111111111" className="mb-8" />
         <div className="flex flex-col gap-6 lg:flex-row">
           <div className="flex min-w-0 flex-1 flex-col gap-10">
             <HeroSection downloadUrl={downloadUrl} downloadAvailable={downloadAvailable} downloadCount={downloadCount} memberCount={0} />
 
-            <AdSlot />
+            <StatsStrip
+              downloads={downloadCount}
+              feedbackCount={feedbackCount}
+              averageRating={averageRating}
+              membersOnline={widget?.presenceCount ?? 0}
+            />
+
+            <AdSlot slot="2222222222" />
 
             <section className="flex flex-col gap-5">
               <div className="flex items-center justify-between gap-3">
