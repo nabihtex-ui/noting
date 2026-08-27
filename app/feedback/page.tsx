@@ -1,4 +1,5 @@
 import { SiteHeader } from "@/components/site-header"
+import { SiteFooter } from "@/components/site-footer"
 import { DiscordSidebar } from "@/components/discord-sidebar"
 import { FeedbackList } from "@/components/feedback-list"
 import { FeedbackForm } from "@/components/feedback-form"
@@ -41,6 +42,7 @@ export default async function FeedbackPage() {
           <DiscordSidebar widget={widget} />
         </div>
       </main>
+      <SiteFooter inviteUrl={widget?.instantInvite ?? null} />
     </div>
   )
 }

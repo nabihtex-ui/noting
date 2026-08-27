@@ -2,6 +2,7 @@ import Link from "next/link"
 import { headers } from "next/headers"
 import { ArrowRight } from "lucide-react"
 import { SiteHeader } from "@/components/site-header"
+import { SiteFooter } from "@/components/site-footer"
 import { HeroSection } from "@/components/hero-section"
 import { DiscordSidebar } from "@/components/discord-sidebar"
 import { FeedbackMarquee } from "@/components/feedback-marquee"
@@ -67,6 +68,7 @@ export default async function HomePage() {
           <DiscordSidebar widget={widget} />
         </div>
       </main>
+      <SiteFooter inviteUrl={widget?.instantInvite ?? null} />
     </div>
   )
 }

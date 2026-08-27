@@ -39,6 +39,18 @@ export function SiteFooter({ inviteUrl }: { inviteUrl: string | null }) {
           >
             Feedback
           </Link>
+          <Link
+            href="/policy"
+            className="text-muted-foreground transition-colors hover:text-foreground"
+          >
+            سياسة الخصوصية
+          </Link>
+          <Link
+            href="/tos"
+            className="text-muted-foreground transition-colors hover:text-foreground"
+          >
+            شروط الاستخدام
+          </Link>
           {inviteUrl && (
             <a
               href={inviteUrl}
