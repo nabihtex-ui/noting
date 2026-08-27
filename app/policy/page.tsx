@@ -1,7 +1,7 @@
 import type { Metadata } from "next"
 import { SiteHeader } from "@/components/site-header"
 import { SiteFooter } from "@/components/site-footer"
-import { LegalPage } from "@/components/legal/legal-page"
+import { BilingualLegalPage } from "@/components/legal/bilingual-legal-page"
 import { getCurrentUser } from "@/lib/auth"
 import { getWidget } from "@/lib/discord"
 
@@ -13,15 +13,18 @@ export const metadata: Metadata = {
 }
 
 // ---------------------------------------------------------------------------
-// Want to edit or add a clause? Everything you need is in the `sections`
-// array below. Each item is just an id + title + body. Edit the text inside
-// <p> or <ul>/<li> like any normal HTML/JSX, and the page (including the
-// jump-links nav at the top) updates automatically.
+// Want to edit or add a clause? There are two arrays below: `sectionsEn` and
+// `sectionsAr`. Each item is an id + title + body — edit the text inside
+// like normal HTML/JSX. Keep both arrays in the same order with matching
+// ids so the language toggle switches cleanly between them. If you only
+// care about one language, you can leave the other array's text as-is (or
+// duplicate the English text into it) — it just won't be perfectly
+// translated.
 // ---------------------------------------------------------------------------
 const LAST_UPDATED = "August 28, 2026"
 const SUPPORT_EMAIL = "support@nyova.xyz"
 
-const sections = [
+const sectionsEn = [
   {
     id: "intro",
     title: "Introduction",
@@ -77,13 +80,16 @@ const sections = [
     body: (
       <>
         <p>
-          The Site uses essential cookies to keep your login session working, and it also uses{" "}
-          <strong>Google AdSense</strong> to display ads. Google may use cookies or similar identifiers
-          to show you ads relevant to your visits to this Site and other sites.
+          The Site uses essential cookies to keep your login session working. It also uses{" "}
+          <strong>Google AdSense</strong> to display ads, and asks for your consent before any
+          advertising cookie is set — you'll see a banner the first time you visit where you can accept
+          or decline. Google may use these cookies or similar identifiers to show you ads relevant to
+          your visits to this Site and other sites, once you've agreed.
         </p>
         <ul>
+          <li>You can change your choice at any time by clearing the banner's cookie in your browser.</li>
           <li>
-            You can manage Google's personalized ad settings at{" "}
+            You can also manage Google's personalized ad settings directly at{" "}
             <a href="https://myadcenter.google.com" target="_blank" rel="noopener noreferrer">
               Google Ad Center
             </a>
@@ -112,7 +118,7 @@ const sections = [
         <li>Signing you in and displaying your name and avatar on the Site.</li>
         <li>Publishing and displaying your feedback on our Discord server and the Site.</li>
         <li>Counting downloads and live visitors to display public totals on the homepage.</li>
-        <li>Serving ads through Google AdSense.</li>
+        <li>Serving ads through Google AdSense, once you've consented to advertising cookies.</li>
         <li>Keeping the Site secure and preventing abuse.</li>
       </ul>
     ),
@@ -128,7 +134,8 @@ const sections = [
             <strong>Discord:</strong> to power login and to post your feedback to our server.
           </li>
           <li>
-            <strong>Google AdSense:</strong> to serve ads, subject to Google's own policies.
+            <strong>Google AdSense:</strong> to serve ads, subject to Google's own policies and your
+            cookie consent choice.
           </li>
           <li>
             <strong>Our hosting/database provider</strong> (e.g. Vercel and the Site's database) to run
@@ -199,17 +206,194 @@ const sections = [
   },
 ]
 
+const sectionsAr = [
+  {
+    id: "intro",
+    title: "مقدمة",
+    body: (
+      <p>
+        توضح سياسة الخصوصية هذه إزاي موقع وتطبيق <strong>Nyova</strong> ("نحن"، "الموقع") بيتعامل مع بياناتك
+        لما تستخدم <strong>nyova.xyz</strong> أو أي خدمة مرتبطة بيه، زي تسجيل الدخول بحساب Discord، إرسال
+        فيدباك، أو تحميل التطبيق. باستخدامك للموقع، يبقى موافق على الطريقة الموضحة هنا.
+      </p>
+    ),
+  },
+  {
+    id: "data-we-collect",
+    title: "البيانات اللي بنجمعها",
+    body: (
+      <>
+        <p>احنا بنجمع أقل قدر ممكن من البيانات، وبس اللي محتاجينه عشان الموقع يشتغل صح:</p>
+        <ul>
+          <li>
+            <strong>بيانات تسجيل الدخول بـ Discord:</strong> لو سجّلت دخول، بناخد الآيدي، اسم المستخدم،
+            الاسم المعروض، وصورة البروفايل من حسابك على Discord (عن طريق OAuth الرسمي بتاع Discord). احنا
+            مش بناخد باسورد حسابك ولا أي صلاحية زيادة عن كده.
+          </li>
+          <li>
+            <strong>جلسة الدخول (Session):</strong> بنخزّن بياناتك دي جوه كوكي واحدة موقّعة (signed cookie) على
+            جهازك عشان نعرف إنك مسجل دخول، من غير ما نحتفظ بحساب ليك في قاعدة بيانات منفصلة.
+          </li>
+          <li>
+            <strong>الفيدباك:</strong> أي تقييم أو تعليق بتكتبه في صفحة الفيدباك بينشر في سيرفر الـ Discord
+            بتاعنا وبيظهر بشكل عام على الموقع (مع اسمك وصورتك اللي جايين من Discord).
+          </li>
+          <li>
+            <strong>عداد التحميلات:</strong> كل مرة تضغط زرار التحميل، بنسجّل حدث بسيط (النوع/المنصة، وقت
+            الضغط، وآيدي حسابك لو كنت مسجل دخول) عشان نعرض عدد التحميلات الإجمالي. الزوار الغير مسجلين
+            برضه يقدروا يحمّلوا عادي من غير ما نربط التحميل بأي حساب.
+          </li>
+          <li>
+            <strong>عدد الزوار المتصلين حاليًا:</strong> بنسجّل مؤشر مؤقت (visitor id عشوائي) عشان نعرض عدد
+            الناس المتصلين بالموقع دلوقتي، وده بيتمسح تلقائيًا بعد فترة قصيرة من عدم النشاط.
+          </li>
+        </ul>
+      </>
+    ),
+  },
+  {
+    id: "cookies-ads",
+    title: "الكوكيز والإعلانات",
+    body: (
+      <>
+        <p>
+          الموقع بيستخدم كوكيز أساسية عشان جلسة الدخول تشتغل. وبيستخدم كمان <strong>Google AdSense</strong>{" "}
+          لعرض الإعلانات، وبيطلب موافقتك الأول قبل ما يفعّل أي كوكي إعلاني — هتشوف بانر أول ما تزور
+          الموقع تقدر توافق أو ترفض منه. لو وافقت، جوجل ممكن تستخدم الكوكيز دي عشان تعرض إعلانات مناسبة
+          ليك بناءً على زياراتك لهذا الموقع ومواقع تانية.
+        </p>
+        <ul>
+          <li>تقدر تغيّر اختيارك في أي وقت بمسح كوكي البانر من المتصفح بتاعك.</li>
+          <li>
+            تقدر كمان تتحكم في إعلانات جوجل الشخصية من خلال{" "}
+            <a href="https://myadcenter.google.com" target="_blank" rel="noopener noreferrer">
+              إعدادات إعلانات جوجل
+            </a>
+            .
+          </li>
+          <li>
+            لمزيد من التفاصيل عن إزاي جوجل بتستخدم البيانات، شوف{" "}
+            <a
+              href="https://policies.google.com/technologies/partner-sites"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              صفحة جوجل الخاصة بالشركاء
+            </a>
+            .
+          </li>
+        </ul>
+      </>
+    ),
+  },
+  {
+    id: "how-we-use",
+    title: "إزاي بنستخدم بياناتك",
+    body: (
+      <ul>
+        <li>تسجيل دخولك وعرض اسمك وصورتك في الموقع.</li>
+        <li>نشر وعرض الفيدباك بتاعك في سيرفر الـ Discord وعلى الموقع.</li>
+        <li>حساب عدد التحميلات وعدد المتصلين حاليًا لعرضهم بشكل عام على الصفحة الرئيسية.</li>
+        <li>عرض إعلانات عن طريق Google AdSense، بعد ما توافق على كوكيز الإعلانات.</li>
+        <li>الحفاظ على أمان الموقع ومنع إساءة الاستخدام.</li>
+      </ul>
+    ),
+  },
+  {
+    id: "sharing",
+    title: "مشاركة البيانات مع أطراف تانية",
+    body: (
+      <>
+        <p>احنا مش بنبيع بياناتك لأي حد. البيانات ممكن تتشارك بس في الحالات دي:</p>
+        <ul>
+          <li>
+            <strong>Discord:</strong> عشان تسجيل الدخول يشتغل، ونشر الفيدباك في السيرفر.
+          </li>
+          <li>
+            <strong>Google AdSense:</strong> عشان عرض الإعلانات، حسب سياسة جوجل الخاصة بيهم واختيارك
+            بخصوص الكوكيز.
+          </li>
+          <li>
+            <strong>مزوّد الاستضافة/قاعدة البيانات:</strong> (زي Vercel وقاعدة بيانات الموقع) لتشغيل الموقع
+            نفسه وتخزين عداد التحميلات والزوار المتصلين.
+          </li>
+          <li>لو طُلب منّا قانونيًا الإفصاح عن بيانات معينة من جهة رسمية مختصة.</li>
+        </ul>
+      </>
+    ),
+  },
+  {
+    id: "retention",
+    title: "مدة الاحتفاظ بالبيانات",
+    body: (
+      <p>
+        جلسة الدخول بتفضل موجودة لحد ما تعمل تسجيل خروج أو تنتهي صلاحيتها. الفيدباك بيفضل ظاهر على الموقع
+        وفي سيرفر Discord لحد ما يتمسح يدويًا. سجلات التحميلات وبيانات الزوار المتصلين بتتخزّن بشكل مبسّط
+        (بدون تفاصيل حساسة) لغرض العدّادات فقط.
+      </p>
+    ),
+  },
+  {
+    id: "your-rights",
+    title: "حقوقك",
+    body: (
+      <ul>
+        <li>تقدر تسجّل خروج في أي وقت من الموقع عشان تمسح جلستك.</li>
+        <li>تقدر تطلب حذف الفيدباك بتاعك بالتواصل معانا.</li>
+        <li>تقدر تراجع أو تلغي صلاحيات تطبيق Nyova من إعدادات حسابك على Discord مباشرة.</li>
+        <li>
+          لأي طلب يخص بياناتك، تواصل معانا على{" "}
+          <a href={`mailto:${SUPPORT_EMAIL}`}>{SUPPORT_EMAIL}</a>.
+        </li>
+      </ul>
+    ),
+  },
+  {
+    id: "children",
+    title: "الأطفال",
+    body: (
+      <p>
+        الموقع مش موجّه للأطفال أقل من 13 سنة، ومش بنجمع بيانات بشكل متعمد من فئة عمرية أقل من كده. لو
+        عندك اعتقاد إن طفل قدّم بياناته من غير موافقة ولي الأمر، تواصل معانا عشان نتصرف فورًا.
+      </p>
+    ),
+  },
+  {
+    id: "changes",
+    title: "التعديلات على السياسة",
+    body: (
+      <p>
+        ممكن نحدّث سياسة الخصوصية دي بين فترة وأخرى. أي تعديل هيتم نشره في نفس الصفحة مع تحديث تاريخ
+        "آخر تحديث" في الأعلى. استمرارك في استخدام الموقع بعد التعديل معناه إنك موافق على النسخة الجديدة.
+      </p>
+    ),
+  },
+  {
+    id: "contact",
+    title: "التواصل معانا",
+    body: (
+      <p>
+        لأي استفسار عن سياسة الخصوصية دي، ابعتلنا على{" "}
+        <a href={`mailto:${SUPPORT_EMAIL}`}>{SUPPORT_EMAIL}</a> أو من خلال سيرفر Discord بتاعنا.
+      </p>
+    ),
+  },
+]
+
 export default async function PrivacyPolicyPage() {
   const [user, widget] = await Promise.all([getCurrentUser(), getWidget()])
 
   return (
     <div className="min-h-screen">
       <SiteHeader user={user} />
-      <LegalPage
-        title="Privacy Policy"
+      <BilingualLegalPage
+        titleEn="Privacy Policy"
+        titleAr="سياسة الخصوصية"
+        introEn="Your privacy matters to us. This page explains, in plain terms, what data we collect and how we use it."
+        introAr="خصوصيتك مهمة بالنسبالنا. الصفحة دي بتشرح ببساطة إيه البيانات اللي بنجمعها وإزاي بنستخدمها."
         lastUpdated={LAST_UPDATED}
-        intro="Your privacy matters to us. This page explains, in plain terms, what data we collect and how we use it."
-        sections={sections}
+        sectionsEn={sectionsEn}
+        sectionsAr={sectionsAr}
       />
       <SiteFooter inviteUrl={widget?.instantInvite ?? null} />
     </div>

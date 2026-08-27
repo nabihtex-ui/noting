@@ -40,6 +40,12 @@ export function SiteFooter({ inviteUrl }: { inviteUrl: string | null }) {
             Feedback
           </Link>
           <Link
+            href="/contact"
+            className="text-muted-foreground transition-colors hover:text-foreground"
+          >
+            Contact
+          </Link>
+          <Link
             href="/policy"
             className="text-muted-foreground transition-colors hover:text-foreground"
           >
