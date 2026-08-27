@@ -18,10 +18,10 @@ export function LegalPage({
   sections: LegalSection[]
 }) {
   return (
-    <main className="mx-auto max-w-4xl px-4 py-10 sm:px-6 sm:py-14" dir="rtl">
+    <main className="mx-auto max-w-4xl px-4 py-10 sm:px-6 sm:py-14" dir="ltr">
       <header className="mb-10 flex flex-col gap-3 border-b border-border pb-8">
         <h1 className="font-display text-3xl font-bold tracking-tight sm:text-4xl">{title}</h1>
-        <p className="text-sm text-muted-foreground">آخر تحديث: {lastUpdated}</p>
+        <p className="text-sm text-muted-foreground">Last updated: {lastUpdated}</p>
         {intro && <p className="text-base leading-8 text-muted-foreground">{intro}</p>}
       </header>
 
@@ -43,7 +43,7 @@ export function LegalPage({
             <h2 className="mb-3 font-display text-xl font-bold tracking-tight sm:text-2xl">
               {i + 1}. {s.title}
             </h2>
-            <div className="flex flex-col gap-3 text-[15px] leading-8 text-muted-foreground [&_a]:text-primary [&_a]:underline [&_a]:underline-offset-4 [&_li]:mr-5 [&_strong]:text-foreground [&_ul]:list-disc [&_ul]:space-y-2">
+            <div className="flex flex-col gap-3 text-[15px] leading-8 text-muted-foreground [&_a]:text-primary [&_a]:underline [&_a]:underline-offset-4 [&_li]:ml-5 [&_strong]:text-foreground [&_ul]:list-disc [&_ul]:space-y-2">
               {s.body}
             </div>
           </section>

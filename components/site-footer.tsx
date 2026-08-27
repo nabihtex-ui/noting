@@ -43,13 +43,13 @@ export function SiteFooter({ inviteUrl }: { inviteUrl: string | null }) {
             href="/policy"
             className="text-muted-foreground transition-colors hover:text-foreground"
           >
-            سياسة الخصوصية
+            Privacy Policy
           </Link>
           <Link
             href="/tos"
             className="text-muted-foreground transition-colors hover:text-foreground"
           >
-            شروط الاستخدام
+            Terms of Service
           </Link>
           {inviteUrl && (
             <a
