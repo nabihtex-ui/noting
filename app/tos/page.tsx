@@ -18,7 +18,7 @@ export const metadata: Metadata = {
 // matching ids so the language toggle switches cleanly. Add or remove a
 // clause by adding/removing an item from both arrays.
 // ---------------------------------------------------------------------------
-const LAST_UPDATED = "August 28, 2026"
+const LAST_UPDATED = "Sep 1, 2026"
 const SUPPORT_EMAIL = "support@nyova.xyz"
 
 const sectionsEn = [
