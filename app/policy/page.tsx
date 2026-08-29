@@ -21,7 +21,7 @@ export const metadata: Metadata = {
 // duplicate the English text into it) — it just won't be perfectly
 // translated.
 // ---------------------------------------------------------------------------
-const LAST_UPDATED = "August 28, 2026"
+const LAST_UPDATED = "Sep 1, 2026"
 const SUPPORT_EMAIL = "support@nyova.xyz"
 
 const sectionsEn = [
