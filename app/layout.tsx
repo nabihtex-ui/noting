@@ -18,7 +18,7 @@ const plexArabic = IBM_Plex_Sans_Arabic({
 
 export const metadata: Metadata = {
   title: 'Nyova',
-  description: 'Nyova — download the app, share your feedback, and join our community on Discord.',
+  description: 'Nyova — download the Executor, share your feedback, and join our community on Discord.',
   generator: 'v0.app',
   icons: {
     icon: '/nyova-icon.png',
